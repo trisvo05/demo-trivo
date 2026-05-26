@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { encryptData, decryptData } from 'src/common/crypto';
+// import { encryptData, decryptData } from 'src/common/crypto';
 // import { User } from './schemas/user.schema';
 
 @Injectable()
@@ -47,5 +47,10 @@ export class UsersService {
   async findAll() {
     const users = await this.userModel.find().lean();
     return users.map((user) => ({ ...user }));
+  }
+
+  async findByEmail(email: string) {
+    const users = await this.userModel.find().lean();
+    return users.find((user) => user.email === email) ?? null;
   }
 }
